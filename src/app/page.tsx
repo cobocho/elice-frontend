@@ -1,9 +1,15 @@
-'use client';
-
-import { useApiUsersGet } from '@/services/사용자/사용자';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function Home() {
-	const data = useApiUsersGet();
-
-	return <div>dsa</div>;
+	return (
+		<div>
+			<Link href="/user/add">
+				<Button>Add User</Button>
+			</Link>
+			<Link href="/user/register">
+				<Button>User List</Button>
+			</Link>
+		</div>
+	);
 }

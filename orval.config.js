@@ -18,4 +18,15 @@ module.exports = {
 			},
 		},
 	},
+	zod: {
+		input: {
+			target: 'https://qkewybjsseagatzq.tunnel-pt.elice.io/openapi.json',
+		},
+		output: {
+			mode: 'tags-split',
+			client: 'zod',
+			target: 'src/services/api.ts',
+			fileExtension: '.zod.ts',
+		},
+	},
 };
