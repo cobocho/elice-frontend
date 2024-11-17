@@ -5,7 +5,7 @@
  * 
 Mix&Mingle API Server
 
- * OpenAPI spec version: 0.2.0
+ * OpenAPI spec version: 0.3.0
  */
 import {
   z as zod
@@ -112,8 +112,7 @@ export const apiEventsEventIdGrouppingPostParams = zod.object({
 export const apiEventsEventIdGrouppingPostBody = zod.object({
   "job": zod.enum(['랜덤', '유사성']).or(zod.null()).optional(),
   "personality": zod.enum(['랜덤', '유사성']).or(zod.null()).optional(),
-  "interest": zod.enum(['랜덤', '유사성']).or(zod.null()).optional(),
-  "hobby": zod.enum(['랜덤', '유사성']).or(zod.null()).optional()
+  "interest": zod.enum(['랜덤', '유사성']).or(zod.null()).optional()
 })
 
 export const apiEventsEventIdGrouppingPostResponse = zod.record(zod.string(), zod.array(zod.string()))

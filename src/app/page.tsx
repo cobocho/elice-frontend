@@ -7,7 +7,7 @@ export default function Home() {
 			<Link href="/user/add">
 				<Button>Add User</Button>
 			</Link>
-			<Link href="/user/register">
+			<Link href="/user/list">
 				<Button>User List</Button>
 			</Link>
 		</div>

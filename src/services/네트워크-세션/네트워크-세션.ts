@@ -5,11 +5,12 @@
  * 
 Mix&Mingle API Server
 
- * OpenAPI spec version: 0.2.0
+ * OpenAPI spec version: 0.3.0
  */
 import {
   useMutation,
-  useQuery
+  useQuery,
+  useSuspenseQuery
 } from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
@@ -21,7 +22,9 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import type {
   HTTPValidationError,
@@ -123,6 +126,60 @@ export function useApiSessionsGet<TData = Awaited<ReturnType<typeof apiSessionsG
 
 
 
+export const getApiSessionsGetSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof apiSessionsGet>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getApiSessionsGetQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof apiSessionsGet>>> = ({ signal }) => apiSessionsGet(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ApiSessionsGetSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof apiSessionsGet>>>
+export type ApiSessionsGetSuspenseQueryError = ErrorType<unknown>
+
+
+export function useApiSessionsGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsGet>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiSessionsGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsGet>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiSessionsGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsGet>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary 세션 목록 조회
+ */
+
+export function useApiSessionsGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsGet>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getApiSessionsGetSuspenseQueryOptions(options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
 /**
  * 사용자가 이벤트에 참여합니다.
  * @summary 사용자 이벤트 참여
@@ -186,7 +243,7 @@ export const useApiSessionsPost = <TError = ErrorType<HTTPValidationError>,
  * @summary 네트워크 세션 조회
  */
 export const apiSessionsSessionIdGet = (
-    sessionId: string,
+    sessionId: number,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -198,12 +255,12 @@ export const apiSessionsSessionIdGet = (
     }
   
 
-export const getApiSessionsSessionIdGetQueryKey = (sessionId: string,) => {
+export const getApiSessionsSessionIdGetQueryKey = (sessionId: number,) => {
     return [`/api/sessions/${sessionId}`] as const;
     }
 
     
-export const getApiSessionsSessionIdGetQueryOptions = <TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getApiSessionsSessionIdGetQueryOptions = <TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(sessionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -226,7 +283,7 @@ export type ApiSessionsSessionIdGetQueryError = ErrorType<HTTPValidationError>
 
 
 export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
- sessionId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>> & Pick<
+ sessionId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof apiSessionsSessionIdGet>>,
           TError,
@@ -236,7 +293,7 @@ export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof api
 
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
- sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>> & Pick<
+ sessionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof apiSessionsSessionIdGet>>,
           TError,
@@ -246,7 +303,7 @@ export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof api
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
- sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ sessionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
 /**
@@ -254,7 +311,7 @@ export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof api
  */
 
 export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
- sessionId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ sessionId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
@@ -269,12 +326,66 @@ export function useApiSessionsSessionIdGet<TData = Awaited<ReturnType<typeof api
 
 
 
+export const getApiSessionsSessionIdGetSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(sessionId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getApiSessionsSessionIdGetQueryKey(sessionId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>> = ({ signal }) => apiSessionsSessionIdGet(sessionId, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(sessionId), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ApiSessionsSessionIdGetSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>>
+export type ApiSessionsSessionIdGetSuspenseQueryError = ErrorType<HTTPValidationError>
+
+
+export function useApiSessionsSessionIdGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ sessionId: number, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiSessionsSessionIdGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ sessionId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiSessionsSessionIdGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ sessionId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary 네트워크 세션 조회
+ */
+
+export function useApiSessionsSessionIdGetSuspense<TData = Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ sessionId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiSessionsSessionIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getApiSessionsSessionIdGetSuspenseQueryOptions(sessionId,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
 /**
  * 세션을 삭제합니다.
  * @summary 세션 삭제
  */
 export const apiSessionsSessionIdDelete = (
-    sessionId: string,
+    sessionId: number,
  options?: SecondParameter<typeof customInstance>,) => {
       
       
@@ -287,14 +398,14 @@ export const apiSessionsSessionIdDelete = (
 
 
 export const getApiSessionsSessionIdDeleteMutationOptions = <TError = ErrorType<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, TError,{sessionId: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, TError,{sessionId: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, TError,{sessionId: number}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, TError,{sessionId: number}, TContext> => {
 const {mutation: mutationOptions, request: requestOptions} = options ?? {};
 
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, {sessionId: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, {sessionId: number}> = (props) => {
           const {sessionId} = props ?? {};
 
           return  apiSessionsSessionIdDelete(sessionId,requestOptions)
@@ -313,11 +424,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
  * @summary 세션 삭제
  */
 export const useApiSessionsSessionIdDelete = <TError = ErrorType<HTTPValidationError>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, TError,{sessionId: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>, TError,{sessionId: number}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationResult<
         Awaited<ReturnType<typeof apiSessionsSessionIdDelete>>,
         TError,
-        {sessionId: string},
+        {sessionId: number},
         TContext
       > => {
 

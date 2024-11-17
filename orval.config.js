@@ -15,6 +15,10 @@ module.exports = {
 					path: 'src/utils/axios.ts',
 					name: 'customInstance',
 				},
+				query: {
+					useQuery: true,
+					useSuspenseQuery: true,
+				},
 			},
 		},
 	},

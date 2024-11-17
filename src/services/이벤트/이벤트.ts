@@ -5,11 +5,12 @@
  * 
 Mix&Mingle API Server
 
- * OpenAPI spec version: 0.2.0
+ * OpenAPI spec version: 0.3.0
  */
 import {
   useMutation,
-  useQuery
+  useQuery,
+  useSuspenseQuery
 } from '@tanstack/react-query'
 import type {
   DefinedInitialDataOptions,
@@ -21,7 +22,9 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import type {
   ApiEventsEventIdGrouppingPost200,
@@ -118,6 +121,60 @@ export function useApiEventsGet<TData = Awaited<ReturnType<typeof apiEventsGet>>
   const queryOptions = getApiEventsGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getApiEventsGetSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof apiEventsGet>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getApiEventsGetQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof apiEventsGet>>> = ({ signal }) => apiEventsGet(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ApiEventsGetSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof apiEventsGet>>>
+export type ApiEventsGetSuspenseQueryError = ErrorType<unknown>
+
+
+export function useApiEventsGetSuspense<TData = Awaited<ReturnType<typeof apiEventsGet>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiEventsGetSuspense<TData = Awaited<ReturnType<typeof apiEventsGet>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiEventsGetSuspense<TData = Awaited<ReturnType<typeof apiEventsGet>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary 이벤트 목록 조회
+ */
+
+export function useApiEventsGetSuspense<TData = Awaited<ReturnType<typeof apiEventsGet>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getApiEventsGetSuspenseQueryOptions(options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey ;
 
@@ -264,6 +321,60 @@ export function useApiEventsEventIdGet<TData = Awaited<ReturnType<typeof apiEven
   const queryOptions = getApiEventsEventIdGetQueryOptions(eventId,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getApiEventsEventIdGetSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError = ErrorType<HTTPValidationError>>(eventId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getApiEventsEventIdGetQueryKey(eventId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof apiEventsEventIdGet>>> = ({ signal }) => apiEventsEventIdGet(eventId, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(eventId), ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ApiEventsEventIdGetSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof apiEventsEventIdGet>>>
+export type ApiEventsEventIdGetSuspenseQueryError = ErrorType<HTTPValidationError>
+
+
+export function useApiEventsEventIdGetSuspense<TData = Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ eventId: number, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiEventsEventIdGetSuspense<TData = Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ eventId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useApiEventsEventIdGetSuspense<TData = Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ eventId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary 이벤트 조회
+ */
+
+export function useApiEventsEventIdGetSuspense<TData = Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError = ErrorType<HTTPValidationError>>(
+ eventId: number, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof apiEventsEventIdGet>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getApiEventsEventIdGetSuspenseQueryOptions(eventId,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey ;
 
