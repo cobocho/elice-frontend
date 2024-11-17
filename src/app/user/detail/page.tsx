@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
 	useApiUsersPost,
+	useApiUsersUserIdDelete,
 	useApiUsersUserIdGet,
 	useApiUsersUserIdGetSuspense,
 	useApiUsersUserIdPut,
@@ -28,6 +29,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { useRouter } from 'next/navigation';
 
 const UserDetailPage = ({
 	searchParams,
@@ -39,6 +41,10 @@ const UserDetailPage = ({
 	const user_id = searchParams.user_id;
 
 	const editMutation = useApiUsersUserIdPut();
+	const deleteMutation = useApiUsersUserIdDelete();
+
+	const router = useRouter();
+
 	const userDetailQuery = useApiUsersUserIdGetSuspense(user_id);
 
 	const userForm = useForm({
@@ -161,6 +167,22 @@ const UserDetailPage = ({
 						)}
 					/>
 					<Button>Edit</Button>
+					<Button
+						type="button"
+						variant="destructive"
+						onClick={async () => {
+							const ok = confirm('정말 삭제하시겠습니까?');
+
+							if (ok) {
+								await deleteMutation.mutateAsync({
+									userId: user_id,
+								});
+								router.push('/user/list');
+							}
+						}}
+					>
+						Delete
+					</Button>
 				</form>
 			</Form>
 		</div>
